@@ -1,42 +1,16 @@
-name: 🚀 Deploy to Somee FTP3
-
-on:
-  push:
-    branches:
-      - main # Thay đổi thành tên branch bạn muốn kích hoạt deploy (ví dụ: master, production)
-
+on: push
+name: 🚀 Deploy website on push
 jobs:
   web-deploy:
-    name: Deploy
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
     
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Quan trọng: Giúp action FTP hoạt động chính xác hơn
-
-      # Nếu bạn có các bước build (ví dụ: npm run build) thì đặt ở đây
-      # - name: 🛠️ Build project
-      #   run: |
-      #     npm install
-      #     npm run build
-      
-      - name: 📂 Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          # Các thông tin kết nối FTP được lấy từ GitHub Secrets
-          # *LƯU Ý: Somee có thể yêu cầu FTPES (Explicit FTPS) hoặc FTPS. Bạn có thể cần
-          # thử nghiệm với cổng (port) hoặc cài đặt server/ssl-allow.
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          # folder mà bạn muốn upload lên (thường là public_html/ hoặc root / của Somee)
-          server-dir: /wwwroot/ # Thay đổi đường dẫn đích trên Somee nếu cần
-          # folder chứa code trên GitHub Action runner để upload (mặc định là thư mục gốc của repo)
-          # local-dir: ./build/ # Ví dụ: nếu bạn có bước build và code nằm trong thư mục 'build'
-          
-          # Cài đặt thêm (Tùy chọn)
-          # ftp-server-type: 'standard' # Tùy chọn, có thể cần nếu gặp lỗi
-          # secure: true # Có thể cần nếu Somee dùng FTPS (Implicit FTPS)
-          # delete: true # Xóa các file trên server mà không có trong local
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+    
+    - name: 📂 Sync files
+      with:
+        FTP_HOST: ${{ secrets.FTP_HOST }}
+        FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
