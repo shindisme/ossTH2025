@@ -24,11 +24,11 @@ jobs:
           echo "FTP_PASSWORD=$FTP_PASSWORD" >> $GITHUB_ENV
 
       - name: Deploy to FTP server
-        uses: sebastianpopp/ftp-deploy-action@v2
+        uses: appleboy/ftp-action@v1.1.0
         with:
-          ftp-server: ${{ env.FTP_HOST }}
-          ftp-username: ${{ env.FTP_USERNAME }}
-          ftp-password: ${{ env.FTP_PASSWORD }}
+          host: ${{ env.FTP_HOST }}
+          username: ${{ env.FTP_USERNAME }}
+          password: ${{ env.FTP_PASSWORD }}
+          port: 21  # Cổng FTP, thường là 21 mặc định, nhưng có thể thay đổi tùy vào cấu hình của bạn
           local-dir: ./  # Đường dẫn tới thư mục chứa mã nguồn cần tải lên
           remote-dir: /public_html  # Thư mục trên server của FPT Hosting (có thể thay đổi tùy vào cấu hình của bạn)
-
