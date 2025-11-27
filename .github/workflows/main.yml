@@ -8,9 +8,11 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v4
     
-    - name: 📂 Sync files
+    - name: 📂 Sync files to FTP (FTPS support)
       uses: SamKirkland/FTP-Deploy-Action@v4.3.6
       with:
-        server: ${{ secrets.FTP_HOST }}
+        server: ${{ secrets.FTP_HOST }}  # Đảm bảo chỉ nhập tên máy chủ, không có 'ftp://'
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        port: 990  # FTPS cổng 990 thay vì FTP cổng 21
+        secure: true  # Đảm bảo sử dụng FTPS nếu máy chủ yêu cầu
