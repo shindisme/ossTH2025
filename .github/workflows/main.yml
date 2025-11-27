@@ -31,6 +31,8 @@ jobs:
 
           # Duyệt qua tất cả các tệp trong LOCAL_DIR và tải lên từng tệp
           find $LOCAL_DIR -type f | while read FILE; do
+            # Tạo URL FTP chính xác
+            FTP_URL="ftp://${{ env.FTP_USERNAME }}:${{ env.FTP_PASSWORD }}@${{ env.FTP_HOST }}${REMOTE_DIR}/$(basename $FILE)"
             echo "Uploading $FILE to FTP server..."
-            curl -T $FILE --ftp-create-dirs -u ${{ env.FTP_USERNAME }}:${{ env.FTP_PASSWORD }} ftp://${{ env.FTP_HOST }}${REMOTE_DIR}/$(basename $FILE)
+            curl -T "$FILE" --ftp-create-dirs "$FTP_URL"
           done
