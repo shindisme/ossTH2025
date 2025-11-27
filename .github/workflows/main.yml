@@ -3,7 +3,7 @@ name: Deploy to Somee via FTP
 on:
   push:
     branches:
-      - main  # Hoặc nhánh mà bạn muốn deploy từ đó
+      - main  # Hoặc nhánh bạn muốn deploy từ đó
 
 jobs:
   deploy:
@@ -14,14 +14,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # 2. Thiết lập FTP Deployment
-    - name: FTP Deploy to Somee.com
-      uses: HyperLab/ftp-upload-action@v1.0.0
-      with:
-        ftp-server: '${{ secrets.FTP_HOST }}'  # Địa chỉ FTP của Somee
-        ftp-username: ${{ secrets.FTP_USERNAME }}  # Lấy tên người dùng FTP từ GitHub secrets
-        ftp-password: ${{ secrets.FTP_PASSWORD }}  # Lấy mật khẩu FTP từ GitHub secrets
-        local-dir: './build'  # Thư mục build của ứng dụng bạn muốn deploy, ví dụ: output sau khi build
-        remote-dir: '/wwwroot'  # Thư mục đích trên server FTP (thông thường của Somee là '/wwwroot')
-        # Optional: Nếu bạn muốn xóa các file cũ trên server trước khi tải lên
-        clean: true
+    # 2. Build ứng dụng (nếu cần thiết, ví dụ với .NET)
+    - name: Build Application
+      run: |
+        dotnet publish -c Release -o ./build
+
+    # 3. Upload file qua FTP bằng curl
+    - name: Upload to FTP Server via curl
+      run: |
+        # Thiết lập thông tin đăng nhập FTP
+        FTP_SERVER="${{ secrets.FTP_HOST}}"
+        FTP_USERNAME="${{ secrets.FTP_USERNAME }}"
+        FTP_PASSWORD="${{ secrets.FTP_PASSWORD }}"
+        LOCAL_DIR="./build"  # Thư mục chứa các file bạn muốn upload
+        REMOTE_DIR="/wwwroot"  # Thư mục đích trên server FTP
+        
+        # Upload tất cả file trong thư mục build lên FTP
+        for file in $(find $LOCAL_DIR -type f); do
+          curl -T $file ftp://$FTP_SERVER$REMOTE_DIR/ --user $FTP_USERNAME:$FTP_PASSWORD
+        done
