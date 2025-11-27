@@ -16,6 +16,7 @@ jobs:
 
     # 2. Thiết lập FTP Deployment
     - name: FTP Deploy to Somee.com
+      uses: HyperLab/ftp-upload-action@v1.0.0
       with:
         ftp-server: '${{ secrets.FTP_HOST }}'  # Địa chỉ FTP của Somee
         ftp-username: ${{ secrets.FTP_USERNAME }}  # Lấy tên người dùng FTP từ GitHub secrets
