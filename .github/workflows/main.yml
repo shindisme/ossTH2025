@@ -9,16 +9,19 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v4
       
-    - name: 🔨 Run a build script (Ví dụ)
-      run: |
-        echo "Bắt đầu quá trình build..."
-        # Thay thế bằng các lệnh thực tế của bạn, ví dụ:
-        # npm install
-        # npm run build
-        echo "Hoàn thành quá trình build."
-
     - name: 📂 Sync files
+      # Định nghĩa env ở cấp độ STEP
       env:
         FTP_HOST: ${{ secrets.FTP_HOST }}
         FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        DEPLOY_PATH: /var/www/html/
+      
+      # Ví dụ dùng run để kiểm tra biến
+      run: |
+        echo "Deploy đến $FTP_HOST tại $DEPLOY_PATH"
+        # Sau đó, bạn dùng các biến này trong 'uses' bên dưới
+        # uses: SamKirkland/FTP-Deploy-Action@v4.3.1
+        # với:
+        #   server: ${{ env.FTP_HOST }} # Hoặc trực tiếp dùng secrets/env
+        # ...
