@@ -1,35 +1,34 @@
-name: Deploy to Somee via FTP
+name: Deploy to FPT Hosting
 
 on:
   push:
     branches:
-      - main  # Hoặc nhánh bạn muốn deploy từ đó
+      - main  # Thay "main" bằng nhánh bạn muốn tự động triển khai khi có thay đổi
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Checkout mã nguồn từ repository
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    # 2. Build ứng dụng (nếu cần thiết, ví dụ với .NET)
-    - name: Build Application
-      run: |
-        dotnet publish -c Release -o ./build
+      - name: Set up FTP credentials
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          echo "FTP_HOST=$FTP_HOST" >> $GITHUB_ENV
+          echo "FTP_USERNAME=$FTP_USERNAME" >> $GITHUB_ENV
+          echo "FTP_PASSWORD=$FTP_PASSWORD" >> $GITHUB_ENV
 
-    # 3. Upload file qua FTP bằng curl
-    - name: Upload to FTP Server via curl
-      run: |
-        # Thiết lập thông tin đăng nhập FTP
-        FTP_SERVER="${{ secrets.FTP_HOST}}"
-        FTP_USERNAME="${{ secrets.FTP_USERNAME }}"
-        FTP_PASSWORD="${{ secrets.FTP_PASSWORD }}"
-        LOCAL_DIR="./build"  # Thư mục chứa các file bạn muốn upload
-        REMOTE_DIR="/wwwroot"  # Thư mục đích trên server FTP
-        
-        # Upload tất cả file trong thư mục build lên FTP
-        for file in $(find $LOCAL_DIR -type f); do
-          curl -T $file ftp://$FTP_SERVER$REMOTE_DIR/ --user $FTP_USERNAME:$FTP_PASSWORD
-        done
+      - name: Deploy to FTP server
+        uses: sebastianpopp/ftp-deploy-action@v2
+        with:
+          ftp-server: ${{ env.FTP_HOST }}
+          ftp-username: ${{ env.FTP_USERNAME }}
+          ftp-password: ${{ env.FTP_PASSWORD }}
+          local-dir: ./  # Đường dẫn tới thư mục chứa mã nguồn cần tải lên
+          remote-dir: /public_html  # Thư mục trên server của FPT Hosting (có thể thay đổi tùy vào cấu hình của bạn)
+
