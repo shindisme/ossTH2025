@@ -1,38 +1,16 @@
-name: Deploy to FPT Hosting
-
-on:
-  push:
-    branches:
-      - main  # Thay "main" bằng nhánh bạn muốn tự động triển khai khi có thay đổi
-
+on: push
+name: 🚀 Deploy website on push
 jobs:
-  deploy:
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up FTP credentials
-        env:
-          FTP_HOST: ${{ secrets.FTP_HOST }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        run: |
-          echo "FTP_HOST=$FTP_HOST" >> $GITHUB_ENV
-          echo "FTP_USERNAME=$FTP_USERNAME" >> $GITHUB_ENV
-          echo "FTP_PASSWORD=$FTP_PASSWORD" >> $GITHUB_ENV
-
-      - name: Upload files to FTP server using curl
-        run: |
-          # Thay đổi đường dẫn local-dir và remote-dir theo yêu cầu
-          LOCAL_DIR="./"  # Thư mục chứa mã nguồn
-          REMOTE_DIR="/public_html"  # Thư mục trên server FTP
-
-          # Duyệt qua tất cả các tệp trong LOCAL_DIR và tải lên từng tệp
-          find $LOCAL_DIR -type f | while read FILE; do
-            # Tạo URL FTP chính xác
-            FTP_URL="ftp://${{ env.FTP_USERNAME }}:${{ env.FTP_PASSWORD }}@${{ env.FTP_HOST }}${REMOTE_DIR}/$(basename $FILE)"
-            echo "Uploading $FILE to FTP server..."
-            curl -T "$FILE" --ftp-create-dirs "$FTP_URL"
-          done
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+      with:
+        server: ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
