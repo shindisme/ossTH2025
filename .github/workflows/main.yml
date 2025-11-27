@@ -8,7 +8,15 @@ jobs:
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v4
-    
+      
+    - name: 🔨 Run a build script (Ví dụ)
+      run: |
+        echo "Bắt đầu quá trình build..."
+        # Thay thế bằng các lệnh thực tế của bạn, ví dụ:
+        # npm install
+        # npm run build
+        echo "Hoàn thành quá trình build."
+
     - name: 📂 Sync files
       env:
         FTP_HOST: ${{ secrets.FTP_HOST }}
