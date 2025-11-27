@@ -3,7 +3,7 @@ name: Deploy to FPT Hosting
 on:
   push:
     branches:
-      - master  # Thay "main" bằng nhánh bạn muốn tự động triển khai khi có thay đổi
+      - main  # Thay "main" bằng nhánh bạn muốn tự động triển khai khi có thay đổi
 
 jobs:
   deploy:
