@@ -3,7 +3,7 @@ name: Deploy to FPT Hosting
 on:
   push:
     branches:
-      - main  # Thay "main" bằng nhánh bạn muốn tự động triển khai khi có thay đổi
+      - master  # Thay "main" bằng nhánh bạn muốn tự động triển khai khi có thay đổi
 
 jobs:
   deploy:
@@ -23,12 +23,14 @@ jobs:
           echo "FTP_USERNAME=$FTP_USERNAME" >> $GITHUB_ENV
           echo "FTP_PASSWORD=$FTP_PASSWORD" >> $GITHUB_ENV
 
-      - name: Deploy to FTP server
-        uses: appleboy/ftp-action@v1.1.0
-        with:
-          host: ${{ env.FTP_HOST }}
-          username: ${{ env.FTP_USERNAME }}
-          password: ${{ env.FTP_PASSWORD }}
-          port: 21  # Cổng FTP, thường là 21 mặc định, nhưng có thể thay đổi tùy vào cấu hình của bạn
-          local-dir: ./  # Đường dẫn tới thư mục chứa mã nguồn cần tải lên
-          remote-dir: /public_html  # Thư mục trên server của FPT Hosting (có thể thay đổi tùy vào cấu hình của bạn)
+      - name: Upload files to FTP server using curl
+        run: |
+          # Thay đổi đường dẫn local-dir và remote-dir theo yêu cầu
+          LOCAL_DIR="./"  # Thư mục chứa mã nguồn
+          REMOTE_DIR="/public_html"  # Thư mục trên server FTP
+
+          # Duyệt qua tất cả các tệp trong LOCAL_DIR và tải lên từng tệp
+          find $LOCAL_DIR -type f | while read FILE; do
+            echo "Uploading $FILE to FTP server..."
+            curl -T $FILE --ftp-create-dirs -u ${{ env.FTP_USERNAME }}:${{ env.FTP_PASSWORD }} ftp://${{ env.FTP_HOST }}${REMOTE_DIR}/$(basename $FILE)
+          done
