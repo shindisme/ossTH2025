@@ -10,7 +10,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: 📂 Sync files
-      with:
+      env:
         FTP_HOST: ${{ secrets.FTP_HOST }}
         FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
