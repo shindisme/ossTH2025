@@ -15,7 +15,7 @@ jobs:
         FTP_HOST: ${{ secrets.FTP_HOST }}
         FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
         FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        DEPLOY_PATH: /var/www/html/
+        DEPLOY_PATH: d:/DZHosts/LocalUser/ntd04/www.ntd04.somee.com/
       
       # Dùng run để kiểm tra biến
       run: |
