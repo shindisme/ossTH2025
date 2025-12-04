@@ -1,0 +1,36 @@
+1. Cài đặt trên windows
+	- WSL2
+	- Docker desktop
+2. Sử dụng docker
+	- Project Leader:
+		setup các môi trường cho team
+		Phân phối
+	- Dev:
+		clone các setup của leader
+		chạy các container
+	=> môi trường giống nhau cho tất cả devs
+	Tạo các file Dockerfile:
+	tạo file docker-compose.yml để chạy project
+Kịch bản:
+	Nhóm xây dựng ứng dụng web
+	- frontend: React (node20)
+	- Backend: Laravel 12 (yêu cầu php >=8.2)
+	- Database: Mysql 8
+	- Server: Apache hoặc NGinx
+
+	Nhóm xây dựng ứng dụng web
+	- frontend: React (node20)
+	- Backend: aspnet 9
+	- Database: sql server
+	
+	Nhóm xây dựng ứng dụng web
+	- frontend: Vue.js 
+	- Backend: Java
+	- Database: MongoDb 
+
+	Nhóm xây dựng ứng dụng web
+	- frontend: angular 
+	- Backend: python
+	- Database: Postgres
+
+Dockerhub: tai phan mem va cac image

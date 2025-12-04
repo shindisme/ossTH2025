@@ -1,0 +1,42 @@
+Docker
+1. Cai dat trên windows
+- Cài WSL2
+- download và cài đặt Docker Desktop (có UI,...)
+2. Ví dụ (máy sạch)
+- Cần cài đặt môi trường sử dụng tạo project laravel 12 (php 8.2, mysql)
+- Sử dụng docker để tạo ra các container phù hơp
+3. Leader:
+	setup môi trường (các container,...)
+	Chuyển giao (upload lên dockerhub hoặc copy...), 
+4. Các thành viên khác có cài docker sẽ lấy các container về để sử dụng mà không cần cài đặt chính xác các phiên bản. 
+
+---------------------------------------------
+Git-github	: 40%
+	su dung git + github co ban
+	sử dụng git-github (action) để deploy ứng dụng web: cho shared hosting, cloud.
+	
+Docker		: 40%
+	Cài trên máy cá nhân
+	Setup môi trường cho trước, chia sẻ với các thành viên khác.
+	VD: Thiết lập môi trường lập trình cho project:
+		frontend: React (ver..)
+		backend: nodejs (ver...)
+		server: Apache (hoặc NGinx)
+		DB: Mysql	(ver 8)
+	=> leader: sử dụng docker tạo các container như yêu cầu
+	phân phối (copy, github, dockerhub,...) cho các thành viên
+	=> Các thành viên: Máy chỉ cần cài docker và pull các container về để sử dụng
+
+ProjectLibre	: 20%
+
+--------------------------------------------
+docker: su dụng dcker desktop
+ - tạo các file Dockerfile chứa các định nghĩa
+ - Tạo ra file docker-compose.yml 
+	
+----------------------------
+1./ thứ tụ các bước cài đặt docker desktop trên windows
+2./ Cách setup môi trường cho ứng dụng: frontend: react, backend: node.js, database mysql 8, webserver: apache hoặc Nginx sử dụng docker?
+3./ cách phân phối để cac thành viên trong team có thể sử dụng môi trường đã setup như trên?
+
+---------------------------------------------------------------------
